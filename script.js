@@ -10,34 +10,42 @@ console.log("hello!!")
 let finished = false
 let computerScore = 0;
 let userScore = 0;
-//TODO: prompt the user for max score
 let maxScore = 5;
 
+addEventListeners()
 
 
-function getComputerChoice(){
-    return ['r', 'p', 's'][Math.floor(Math.random()*3)]
+
+
+function addEventListeners(){
+    const buttonRock = document.querySelector('.rock');
+buttonRock.addEventListener('click', function(e){
+    console.log('your choice: rock')
+    playRound('r', getComputerChoice())
+});
+
+const buttonPaper = document.querySelector('.paper');
+buttonPaper.addEventListener('click', function(e){
+    console.log('your choice: paper')
+    playRound('p', getComputerChoice())
+});
+
+const buttonScissors = document.querySelector('.scissors');
+buttonScissors.addEventListener('click', function(e){
+    console.log('your choice: scissors')
+    playRound('s', getComputerChoice())
+});
 
 }
 
-;
 
+function getComputerChoice(){
+    let computerChoice = ['r', 'p', 's'][Math.floor(Math.random()*3)]
+    console.log('computer choice: ' + computerChoice)
+    return computerChoice;
+}
 
-while(!finished){
-    // get the computer's choice
-    let userChoice;
-    let computerChoice = getComputerChoice();
-    // get the user's choice
-
-    while(userChoice != 'r' && userChoice != 'p' && userChoice != 's') {
-        userChoice = prompt("Enter your choice (r | p | s)");
-    }
-
-    console.log("Computer: " + computerChoice)
-    console.log("You: " + userChoice)
-
-    
-
+function playRound(userChoice, computerChoice){
     switch (userChoice) {
         case 'r' : 
             switch(computerChoice){
@@ -91,18 +99,6 @@ while(!finished){
 
             }
             break
-    }
-    // if there's a winner, end.
-    if (userScore >= 5){
-        console.log("You have won. Congratulations.");
-        finished = true;
-        
-    }
-
-    if (computerScore >= 5){
-        console.log("Computer has won. Congratulations computer.");
-        finished = true;
-        
     }
 
 }
