@@ -1,41 +1,117 @@
-setTimeout(function(){
-    //do what you need here
-}, 20000);
-
 console.log("hello!!")
 
+//TODO: check others' code; end game at 5; display result
 
 
 
-let finished = false
 let computerScore = 0;
-let userScore = 0;
-let maxScore = 5;
+let playerScore = 0;
+displayScores(computerScore, playerScore);
+addEventListeners();
 
-addEventListeners()
+function checkEnd(buttons){
+    if(computerScore === 5){
+        alert('Computer Win!')
+        buttons.forEach(b => b.disabled = true)
+
+    }
+
+    else if(playerScore === 5){
+        alert("You Win!")
+        buttons.forEach(b => b.disabled = true)
+    }
+}
+
+function displayResult(result){
+    const resultDisplay = document.querySelector('.resultDisplay');
+    if(result === 't')
+        resultDisplay.textContent = 'TIE! ';
+    else if(result === 'c')
+        resultDisplay.textContent = 'Computer Wins! ';
+    if(result === 'p')
+        resultDisplay.textContent = 'You win! ';
 
 
+}
+
+function displayScores(){
+    const computerScoreDisplay = document.querySelector('.scores .computer .score')
+    computerScoreDisplay.textContent = computerScore
+    const playerScoreDisplay = document.querySelector('.scores .player .score')
+    playerScoreDisplay.textContent = playerScore
+}
+
+function updateScores(result){
+    if(result === 'c') computerScore ++;
+    else if (result === 'p') playerScore ++;
+}
 
 
 function addEventListeners(){
+    const buttons = document.querySelectorAll('button')
     const buttonRock = document.querySelector('.rock');
-buttonRock.addEventListener('click', function(e){
-    console.log('your choice: rock')
-    playRound('r', getComputerChoice())
-});
+    buttonRock.addEventListener('click', function(e){
+        updatePlayerChoice('r')
+        const computerChoice = getComputerChoice()
+        updateComputerChoice(computerChoice)
+        const result = playRound('r', computerChoice)
+        displayResult(result);
+        updateScores(result);
+        displayScores();
+        checkEnd(buttons);
+    });
 
-const buttonPaper = document.querySelector('.paper');
-buttonPaper.addEventListener('click', function(e){
-    console.log('your choice: paper')
-    playRound('p', getComputerChoice())
-});
+    const buttonPaper = document.querySelector('.paper');
+    buttonPaper.addEventListener('click', function(e){
+        updatePlayerChoice('p')
+        const computerChoice = getComputerChoice()
+        updateComputerChoice(computerChoice)
+        const result = playRound('p', computerChoice)
+        displayResult(result);
+        updateScores(result);
+        displayScores();
+        checkEnd(buttons);
+    });
 
-const buttonScissors = document.querySelector('.scissors');
-buttonScissors.addEventListener('click', function(e){
-    console.log('your choice: scissors')
-    playRound('s', getComputerChoice())
-});
+    const buttonScissors = document.querySelector('.scissors');
+    buttonScissors.addEventListener('click', function(e){
+        updatePlayerChoice('s')
+        const computerChoice = getComputerChoice()
+        updateComputerChoice(computerChoice)
+        const result = playRound('s', computerChoice)
+        displayResult(result);
+        updateScores(result);
+        displayScores();
+        checkEnd(buttons);
+    });
 
+}
+
+function updateComputerChoice(choice){
+    const computerChoiceDisplay = document.querySelector('.choices .computer .choice');
+    if(choice === 'r'){
+        computerChoiceDisplay.textContent = 'Rock';
+    }
+    else if(choice === 'p'){
+        computerChoiceDisplay.textContent = 'Paper';
+    }
+    else if(choice === 's'){
+        computerChoiceDisplay.textContent = 'Scissors';
+    }
+}
+
+function updatePlayerChoice(choice){
+    const playerChoiceDisplay = document.querySelector('.choices .player .choice');
+    if(choice === 'r'){
+        playerChoiceDisplay.textContent = 'Rock';
+    }
+    else if(choice === 'p'){
+        playerChoiceDisplay.textContent = 'Paper';
+
+    }
+    else if(choice === 's'){
+        playerChoiceDisplay.textContent = 'Scissors';
+    }
 }
 
 
@@ -50,57 +126,36 @@ function playRound(userChoice, computerChoice){
         case 'r' : 
             switch(computerChoice){
                 case 'r' :
-                    console.log("TIE!"); 
-                    break     
+                    return 't';
                 case 'p' :
-                    computerScore++;  
-                    console.log("Computer Wins! Computer score is: " + computerScore); 
-                    break
+                    return 'c';
                 case 's' :
-                    userScore++
-                    console.log("You Win! Your score is: " + userScore); 
-                    break
-                 
-
+                    return 'p';
             }
             break
 
         case 'p' :
             switch(computerChoice){
                 case 'r' :
-                    userScore++
-                    console.log("You Win! Your score is: " + userScore); 
-                    break
+                    return 'p';
                 case 'p' :
-                    console.log("TIE!");      
-                    break
+                    return 't';
 
                 case 's' :
-                    computerScore++;  
-                    console.log("Computer Wins! Computer score is: " + computerScore); 
-                    break
-
-                
+                    return 's';   
             }
             break
         case 's' :
             switch(computerChoice){
                 case 'r' :
-                    computerScore++;  
-                    console.log("Computer Wins! Computer score is: " + computerScore); 
-                    break 
+                    return 'c';
                 case 'p' :
-                    userScore++;
-                    console.log("You Win! Your score is: " + userScore); 
-                    break
+                    return 'p';
                 case 's' :
-                    console.log("TIE!");      
-                    break
-
+                    return 't'
             }
             break
     }
-
 }
 
 // at each round:
